@@ -6,6 +6,10 @@
 #include "../include/Simulation.h"
 
 Simulation::Simulation() {
+    mouseX = new int{};
+    mouseY = new int{};
+    userInput = new bool{};
+
     initGrid();
 }
 
@@ -25,9 +29,12 @@ void Simulation::initGrid() {
 }
 
 void Simulation::update() {
+    if(*userInput){
+        setParticle();
+        *userInput = false;
+    }
     i++;
     for (int y = GRID_HEIGHT - 1; y >= 0; y--) {
-        std::cout << std::endl;
         for (int x = 0; x < GRID_WIDTH; x++) {
             unsigned int id = particleGrid[y][x].getID();
             colorIdGrid[y][x] = id;
@@ -46,9 +53,7 @@ void Simulation::update() {
 
         }
     }
-    if (i % 5 == 0)
-        testGrid();
-    //printColorIdGrid();
+
 }
 
 /*
@@ -76,7 +81,11 @@ void Simulation::updateSandParticle(unsigned int x, unsigned int y) {
 }
 
 void Simulation::testGrid() {
+    particleGrid[0][45] = Particle(1);
     particleGrid[0][4] = Particle(1);
+    particleGrid[0][300] = Particle(1);
+    particleGrid[0][500] = Particle(1);
+    particleGrid[0][150] = Particle(1);
 }
 
 void Simulation::printParticleGrid() {
@@ -84,7 +93,6 @@ void Simulation::printParticleGrid() {
         for (Particle x: y) {
             std::cout << static_cast<int>(x.getID()) << " ";
         }
-        std::cout << std::endl;
     }
 }
 
@@ -93,6 +101,26 @@ void Simulation::printColorIdGrid(){
         for(unsigned int x : y){
             std::cout << x << " ";
         }
-        std::cout << std::endl;
     }
 }
+
+void Simulation::setParticle() {
+    particleGrid[*mouseY][*mouseX] = Particle(1);
+}
+
+std::vector<std::vector<unsigned int>> *Simulation::getIdMap() {
+    return &colorIdGrid;
+}
+
+int *Simulation::getMouseX() {
+    return mouseX;
+}
+
+int *Simulation::getMouseY() {
+    return mouseY;
+}
+
+bool *Simulation::getUserInput() {
+    return userInput;
+}
+

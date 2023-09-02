@@ -14,7 +14,7 @@ private:
     unsigned int id;
     double lifeTime{};
     double timeAlive{};
-    int color[3];
+    int color[3]{};
 
 public:
     Particle();

@@ -2,11 +2,13 @@
 // Created by leon on 9/2/23.
 //
 
-#include <iostream>
 #include "../include/Render.h"
 
-Render::Render(std::vector<std::vector<unsigned int>>* id){
+Render::Render(std::vector<std::vector<unsigned int>>* id, int* mouseX, int* mouseY, bool* userInput){
     idMap = id;
+    this->mouseX = mouseX;
+    this->mouseY = mouseY;
+    this->userInput = userInput;
 }
 
 Render::~Render() = default;
@@ -44,4 +46,12 @@ void Render::renderGrid() {
 
 void Render::init() {
 
+}
+
+void Render::mousePosition(int x, int y) const {
+    *userInput = true;
+    *mouseX = x / CELL_SIZE;
+    *mouseY = y / CELL_SIZE;
+
+    printf("Mouse: (%d, %d)\n", *mouseX, *mouseY);
 }

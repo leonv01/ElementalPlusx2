@@ -15,4 +15,8 @@ add_executable(ElementalPlusx2 main.cpp
 find_package(GLUT REQUIRED)
 find_package(OpenGL REQUIRED)
 
-target_link_libraries(ElementalPlusx2 ${GLUT_LIBRARIES} ${OPENGL_LIBRARIES})
+target_link_libraries(
+        ElementalPlusx2
+        ${GLUT_LIBRARIES}
+        ${OPENGL_LIBRARIES}
+)

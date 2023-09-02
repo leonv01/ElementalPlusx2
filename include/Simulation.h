@@ -26,16 +26,20 @@ private:
 
     void updateSandParticle(unsigned int x, unsigned int y);
 
+    int* mouseX,* mouseY;
+    bool* userInput;
 public:
     Simulation();
 
     void testGrid();
     void printParticleGrid();
 
-    std::vector<std::vector<unsigned int>>* getIdMap(){
-        return &colorIdGrid;
-    }
+    std::vector<std::vector<unsigned int>>* getIdMap();
+    int* getMouseX();
+    int* getMouseY();
+    bool* getUserInput();
 
+    void setParticle();
     void initGrid();
     void update();
 
