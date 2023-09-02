@@ -7,21 +7,22 @@
 
 
 #include <cstdint>
-#include <GL/glut.h>
-#include <GL/gl.h>
+#include "GL/glut.h"
 
 class Particle {
 private:
-    uint8_t id;
+    unsigned int id;
     double lifeTime{};
     double timeAlive{};
+    int color[3];
 
 public:
     Particle();
-    explicit Particle(uint8_t id);
+    explicit Particle(unsigned int id);
 
-    uint8_t getID() const;
+    ~Particle() = default;
+
+    unsigned int getID() const;
 };
-
 
 #endif //ELEMENTALPLUSX2_PARTICLE_H

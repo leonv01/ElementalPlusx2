@@ -7,10 +7,10 @@
 Particle::Particle() {
     this->id = 0;
 }
-Particle::Particle(uint8_t id) {
+Particle::Particle(unsigned int id) {
     this->id = id;
 }
 
-uint8_t Particle::getID() const {
+unsigned int Particle::getID() const {
     return id;
 }
