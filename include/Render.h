@@ -21,7 +21,7 @@ public:
 
     int* mouseX,* mouseY;
     bool* leftButton;
-    bool* rightButton;
+    bool* rightButton{};
 
     Render(std::vector<std::vector<unsigned int>>* id, int* mouseX, int* mouseY, bool* leftMouse);
     ~Render();

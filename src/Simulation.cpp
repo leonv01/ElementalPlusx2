@@ -1,7 +1,3 @@
-//
-// Created by leon on 9/1/23.
-//
-
 #include <iostream>
 #include "../include/Simulation.h"
 
@@ -30,9 +26,9 @@ void Simulation::initGrid() {
 }
 
 void Simulation::update() {
-    if(*leftMouseButton){
+    if (*leftMouseButton) {
         setParticle();
-    }else if(*rightMouseButton){
+    } else if (*rightMouseButton) {
         removeParticle();
     }
     for (int y = GRID_HEIGHT - 1; y >= 0; y--) {
@@ -49,12 +45,9 @@ void Simulation::update() {
                     break;
                 default:
                     break;
-
             }
-
         }
     }
-
 }
 
 /*
@@ -70,67 +63,50 @@ void Simulation::updateSandParticle(unsigned int x, unsigned int y) {
      * 2. Check left
      * 3. Check right
      */
+
     if ((y + 1) < GRID_HEIGHT) {
         if (particleGrid[y + 1][x].getID() == 0) {
             std::swap(particleGrid[y][x], particleGrid[y + 1][x]);
-        } else if ((x - 1) > 0 && particleGrid[y + 1][x - 1].getID() == 0) {
-            std::swap(particleGrid[y][x], particleGrid[y + 1][x - 1]);
-        } else if ((x + 1) < GRID_WIDTH && particleGrid[y + 1][x + 1].getID() == 0) {
-            std::swap(particleGrid[y][x], particleGrid[y + 1][x + 1]);
+        } else {
+            if (x == 0) {
+                if (particleGrid[y + 1][x + 1].getID() == 0) {
+                    std::swap(particleGrid[y][x], particleGrid[y + 1][x + 1]);
+                }
+            } else if (x == GRID_WIDTH - 1) {
+                if (particleGrid[y + 1][x + 1].getID() == 0) {
+                    std::swap(particleGrid[y][x], particleGrid[y + 1][x + 1]);
+                }
+            }
         }
     }
 }
 
-void Simulation::testGrid() {
-    particleGrid[0][45] = Particle(1);
-    particleGrid[0][4] = Particle(1);
-    particleGrid[0][300] = Particle(1);
-    particleGrid[0][500] = Particle(1);
-    particleGrid[0][150] = Particle(1);
-}
-
-void Simulation::printParticleGrid() {
-    for (const std::vector<Particle> &y: particleGrid) {
-        for (Particle x: y) {
-            std::cout << static_cast<int>(x.getID()) << " ";
+    void Simulation::setParticle() {
+        for (int x = (*mouseX); x < (*mouseX) + BRUSH_SIZE; x++) {
+            particleGrid[*mouseY][x] = Particle(1);
         }
     }
-}
 
-void Simulation::printColorIdGrid(){
-    for(const std::vector<unsigned int>& y: colorIdGrid){
-        for(unsigned int x : y){
-            std::cout << x << " ";
-        }
+    void Simulation::removeParticle() {
+        particleGrid[*mouseY][*mouseX] = Particle();
     }
-}
 
-void Simulation::setParticle() {
-    for(int x = (*mouseX); x < (*mouseX) + BRUSH_SIZE; x++){
-        particleGrid[*mouseY][x] = Particle(1);
+    std::vector<std::vector<unsigned int>> *Simulation::getIdMap() {
+        return &colorIdGrid;
     }
-}
 
-void Simulation::removeParticle() {
-    particleGrid[*mouseY][*mouseX] = Particle();
-}
+    int *Simulation::getMouseX() {
+        return mouseX;
+    }
 
-std::vector<std::vector<unsigned int>> *Simulation::getIdMap() {
-    return &colorIdGrid;
-}
+    int *Simulation::getMouseY() {
+        return mouseY;
+    }
 
-int *Simulation::getMouseX() {
-    return mouseX;
-}
+    bool *Simulation::getLeftMouse() {
+        return leftMouseButton;
+    }
 
-int *Simulation::getMouseY() {
-    return mouseY;
-}
-
-bool *Simulation::getLeftMouse() {
-    return leftMouseButton;
-}
-
-bool *Simulation::getRightMouse() {
-    return rightMouseButton;
-}
+    bool *Simulation::getRightMouse() {
+        return rightMouseButton;
+    }

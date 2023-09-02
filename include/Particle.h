@@ -12,17 +12,23 @@
 class Particle {
 private:
     unsigned int id;
-    double lifeTime{};
-    double timeAlive{};
+    size_t lifeTime{};
+    size_t timeAlive{};
     int color[3]{};
 
 public:
     Particle();
     explicit Particle(unsigned int id);
+    Particle(unsigned int id, size_t lifeTime);
 
     ~Particle() = default;
 
     unsigned int getID() const;
+
+    size_t getLifeTime();
+    size_t getTimeAlive();
+
+    void inline incrementTimeAlive();
 };
 
 #endif //ELEMENTALPLUSX2_PARTICLE_H
