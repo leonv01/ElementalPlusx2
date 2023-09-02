@@ -23,14 +23,18 @@ int main(int argc, char** argv) {
 
     std::vector<std::vector<unsigned int>>* idMap;
     idMap = simulation->getIdMap();
-    renderPtr = new Render(idMap, simulation->getMouseX(), simulation->getMouseY(), simulation->getUserInput());
+    renderPtr = new Render(idMap, simulation->getMouseX(), simulation->getMouseY(), simulation->getLeftMouse());
 
     glutDisplayFunc([](){
         renderPtr->renderGrid();
     });
+    glutMouseFunc([](int button, int state, int x, int y){
+       renderPtr->mouseButtonDown(button, state, x, y);
+    });
     glutMotionFunc([](int x, int y){
         renderPtr->mousePosition(x, y);
     });
+
 
     glutTimerFunc(0,update, 0);
     glutMainLoop();

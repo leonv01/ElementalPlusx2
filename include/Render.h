@@ -20,12 +20,14 @@ public:
     static constexpr int CELL_CENTER = CELL_SIZE / 2;
 
     int* mouseX,* mouseY;
-    bool* userInput;
+    bool* leftButton;
+    bool* rightButton;
 
-    Render(std::vector<std::vector<unsigned int>>* id, int* mouseX, int* mouseY, bool* userInput);
+    Render(std::vector<std::vector<unsigned int>>* id, int* mouseX, int* mouseY, bool* leftMouse);
     ~Render();
 
     void mousePosition(int x, int y) const;
+    void mouseButtonDown(int button, int state, int x, int y) const;
     void renderGrid();
     void init();
 };

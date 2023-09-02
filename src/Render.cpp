@@ -4,11 +4,12 @@
 
 #include "../include/Render.h"
 
-Render::Render(std::vector<std::vector<unsigned int>>* id, int* mouseX, int* mouseY, bool* userInput){
+Render::Render(std::vector<std::vector<unsigned int>>* id, int* mouseX, int* mouseY, bool* leftMouse){
     idMap = id;
     this->mouseX = mouseX;
     this->mouseY = mouseY;
-    this->userInput = userInput;
+    this->leftButton = leftMouse;
+    //this->leftButton = rightMouse;
 }
 
 Render::~Render() = default;
@@ -49,9 +50,18 @@ void Render::init() {
 }
 
 void Render::mousePosition(int x, int y) const {
-    *userInput = true;
+    *leftButton = true;
     *mouseX = x / CELL_SIZE;
     *mouseY = y / CELL_SIZE;
 
     printf("Mouse: (%d, %d)\n", *mouseX, *mouseY);
+}
+
+void Render::mouseButtonDown(int button, int state, int x, int y) const {
+    if(button == GLUT_LEFT_BUTTON){
+        if(state == GLUT_DOWN)
+            *leftButton = true;
+        else
+            *leftButton = false;
+    }
 }

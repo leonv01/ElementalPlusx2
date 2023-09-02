@@ -16,8 +16,6 @@
 
 class Simulation {
 private:
-    int i = 0;
-
     static constexpr unsigned int GRID_WIDTH = Render::WIN_WIDTH / Render::CELL_SIZE;
     static constexpr unsigned int GRID_HEIGHT = Render::WIN_HEIGHT / Render::CELL_SIZE;
 
@@ -27,7 +25,8 @@ private:
     void updateSandParticle(unsigned int x, unsigned int y);
 
     int* mouseX,* mouseY;
-    bool* userInput;
+    bool* leftMouseButton,* rightMouseButton;
+
 public:
     Simulation();
 
@@ -37,8 +36,10 @@ public:
     std::vector<std::vector<unsigned int>>* getIdMap();
     int* getMouseX();
     int* getMouseY();
-    bool* getUserInput();
+    bool* getLeftMouse();
+    bool* getRightMouse();
 
+    void removeParticle();
     void setParticle();
     void initGrid();
     void update();

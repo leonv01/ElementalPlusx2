@@ -8,7 +8,8 @@
 Simulation::Simulation() {
     mouseX = new int{};
     mouseY = new int{};
-    userInput = new bool{};
+    leftMouseButton = new bool{};
+    rightMouseButton = new bool{};
 
     initGrid();
 }
@@ -29,11 +30,11 @@ void Simulation::initGrid() {
 }
 
 void Simulation::update() {
-    if(*userInput){
+    if(*leftMouseButton){
         setParticle();
-        *userInput = false;
+    }else if(*rightMouseButton){
+        removeParticle();
     }
-    i++;
     for (int y = GRID_HEIGHT - 1; y >= 0; y--) {
         for (int x = 0; x < GRID_WIDTH; x++) {
             unsigned int id = particleGrid[y][x].getID();
@@ -108,6 +109,10 @@ void Simulation::setParticle() {
     particleGrid[*mouseY][*mouseX] = Particle(1);
 }
 
+void Simulation::removeParticle() {
+    particleGrid[*mouseY][*mouseX] = Particle();
+}
+
 std::vector<std::vector<unsigned int>> *Simulation::getIdMap() {
     return &colorIdGrid;
 }
@@ -120,7 +125,13 @@ int *Simulation::getMouseY() {
     return mouseY;
 }
 
-bool *Simulation::getUserInput() {
-    return userInput;
+bool *Simulation::getLeftMouse() {
+    return leftMouseButton;
 }
+
+bool *Simulation::getRightMouse() {
+    return rightMouseButton;
+}
+
+
 
