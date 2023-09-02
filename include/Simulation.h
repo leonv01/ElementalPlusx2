@@ -16,8 +16,10 @@
 
 class Simulation {
 private:
+
     static constexpr unsigned int GRID_WIDTH = Render::WIN_WIDTH / Render::CELL_SIZE;
     static constexpr unsigned int GRID_HEIGHT = Render::WIN_HEIGHT / Render::CELL_SIZE;
+    static constexpr int BRUSH_SIZE = 10;
 
     std::vector<std::vector<Particle>> particleGrid;
     std::vector<std::vector<unsigned int>> colorIdGrid;
@@ -26,7 +28,6 @@ private:
 
     int* mouseX,* mouseY;
     bool* leftMouseButton,* rightMouseButton;
-
 public:
     Simulation();
 

@@ -106,7 +106,9 @@ void Simulation::printColorIdGrid(){
 }
 
 void Simulation::setParticle() {
-    particleGrid[*mouseY][*mouseX] = Particle(1);
+    for(int x = (*mouseX); x < (*mouseX) + BRUSH_SIZE; x++){
+        particleGrid[*mouseY][x] = Particle(1);
+    }
 }
 
 void Simulation::removeParticle() {
@@ -132,6 +134,3 @@ bool *Simulation::getLeftMouse() {
 bool *Simulation::getRightMouse() {
     return rightMouseButton;
 }
-
-
-
