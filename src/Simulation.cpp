@@ -43,6 +43,9 @@ void Simulation::update() {
                 case 1:
                     updateSandParticle(x, y);
                     break;
+
+                case 2:
+                    //updateWaterParticle(x,y);
                 default:
                     break;
             }
@@ -64,18 +67,28 @@ void Simulation::updateSandParticle(unsigned int x, unsigned int y) {
      * 3. Check right
      */
 
+    particleGrid[y][x].incrementTimeAlive();
+
     if ((y + 1) < GRID_HEIGHT) {
         if (particleGrid[y + 1][x].getID() == 0) {
             std::swap(particleGrid[y][x], particleGrid[y + 1][x]);
         } else {
             if (x == 0) {
+                if (particleGrid[y + 1][x + 1].getID() == 0)
+                    std::swap(particleGrid[y][x], particleGrid[y + 1][x + 1]);
+            }
+            else if (x == GRID_WIDTH - 1) {
                 if (particleGrid[y + 1][x + 1].getID() == 0) {
                     std::swap(particleGrid[y][x], particleGrid[y + 1][x + 1]);
                 }
-            } else if (x == GRID_WIDTH - 1) {
-                if (particleGrid[y + 1][x + 1].getID() == 0) {
+            }
+            else{
+                if((rand() % 2) == 0){
                     std::swap(particleGrid[y][x], particleGrid[y + 1][x + 1]);
+                }else{
+                    std::swap(particleGrid[y][x], particleGrid[y + 1][x - 1]);
                 }
+
             }
         }
     }
@@ -110,3 +123,4 @@ void Simulation::updateSandParticle(unsigned int x, unsigned int y) {
     bool *Simulation::getRightMouse() {
         return rightMouseButton;
     }
+

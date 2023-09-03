@@ -6,21 +6,26 @@
 
 Particle::Particle() {
     this->id = 0;
+    lifeTime = -1;
+    timeAlive = 0;
 }
 Particle::Particle(unsigned int id) {
     this->id = id;
+    lifeTime = -1;
+    timeAlive = 0;
 }
 
 Particle::Particle(unsigned int id, size_t lifeTime) {
-    this->id;
+    this->id = id;
     this->lifeTime = lifeTime;
+    timeAlive = 0;
 }
 
 unsigned int Particle::getID() const {
     return id;
 }
 
-void inline Particle::incrementTimeAlive() {
+void Particle::incrementTimeAlive() {
     timeAlive++;
     /*
      * If Time Alive exceeds Maximum Life Time

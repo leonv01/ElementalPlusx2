@@ -31,12 +31,20 @@ void Render::renderGrid() {
         for(int x = 0; x < WIN_WIDTH / CELL_SIZE; x++){
             unsigned int id = (*idMap)[((WIN_HEIGHT / CELL_SIZE) - 1) - y][x];
 
-            if(id == 0){
-                glColor3f(0.0, 0.0, 0.0); // Set color to black for even tiles
+            switch(id){
+                case 0:
+                    glColor3f(0.0, 0.0, 0.0); // Set color to black for even tiles
+                    break;
+                case 1:
+                    glColor3f(1.0, 0.65, 0.0); // Set color to white for odd tiles
+                    break;
+                case 2:
+                    glColor3f(0.0, 0.65, 1.0); // Set color to white for odd tiles
+                    break;
+                default:
+                    break;
             }
-            else if(id == 1){
-                glColor3f(1.0, 0.65, 0.0); // Set color to white for odd tiles
-            }
+
             glVertex2i((x * CELL_SIZE) + CELL_CENTER, (y * CELL_SIZE) + CELL_CENTER);
         }
     }
@@ -64,4 +72,8 @@ void Render::mouseButtonDown(int button, int state, int x, int y) const {
         else
             *leftButton = false;
     }
+}
+
+void Render::resize(int x, int y) {
+    glutReshapeWindow(WIN_WIDTH, WIN_HEIGHT);
 }

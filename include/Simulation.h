@@ -8,6 +8,7 @@
 
 #include <cstdint>
 #include <vector>
+#include <random>
 
 #include "Render.h"
 #include "thread"
@@ -19,21 +20,21 @@ private:
 
     static constexpr unsigned int GRID_WIDTH = Render::WIN_WIDTH / Render::CELL_SIZE;
     static constexpr unsigned int GRID_HEIGHT = Render::WIN_HEIGHT / Render::CELL_SIZE;
-    static constexpr int BRUSH_SIZE = 1;
+    static constexpr int VERTICAL_TRAVEL = 1;
+    static constexpr int BRUSH_SIZE = 100;
 
     std::vector<std::vector<Particle>> particleGrid;
     std::vector<std::vector<unsigned int>> colorIdGrid;
 
     void updateSandParticle(unsigned int x, unsigned int y);
+    void updateWaterParticle(unsigned int x, unsigned int y);
 
     int* mouseX,* mouseY;
     bool* leftMouseButton,* rightMouseButton;
+
+    std::random_device rd;
 public:
     Simulation();
-
-    void testGrid();
-    void printParticleGrid();
-
     std::vector<std::vector<unsigned int>>* getIdMap();
     int* getMouseX();
     int* getMouseY();
@@ -44,8 +45,6 @@ public:
     void setParticle();
     void initGrid();
     void update();
-
-    void printColorIdGrid();
 };
 
 

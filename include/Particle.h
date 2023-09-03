@@ -14,6 +14,9 @@ private:
     unsigned int id;
     size_t lifeTime{};
     size_t timeAlive{};
+
+    float gravity;
+    float horizontalSpreading;
     int color[3]{};
 
 public:
@@ -28,7 +31,7 @@ public:
     size_t getLifeTime();
     size_t getTimeAlive();
 
-    void inline incrementTimeAlive();
+    void incrementTimeAlive();
 };
 
 #endif //ELEMENTALPLUSX2_PARTICLE_H

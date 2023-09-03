@@ -34,6 +34,9 @@ int main(int argc, char** argv) {
     glutMotionFunc([](int x, int y){
         renderPtr->mousePosition(x, y);
     });
+    glutReshapeFunc([](int x, int y){
+        Render::resize(x,y);
+    });
 
 
     glutTimerFunc(0,update, 0);

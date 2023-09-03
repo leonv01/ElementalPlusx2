@@ -16,7 +16,7 @@ public:
     static constexpr int WIN_WIDTH = 1920;
     static constexpr int WIN_HEIGHT = 1080;
 
-    static constexpr int CELL_SIZE = 10;
+    static constexpr int CELL_SIZE = 2;
     static constexpr int CELL_CENTER = CELL_SIZE / 2;
 
     int* mouseX,* mouseY;
@@ -28,6 +28,7 @@ public:
 
     void mousePosition(int x, int y) const;
     void mouseButtonDown(int button, int state, int x, int y) const;
+    static void resize(int x, int y);
     void renderGrid();
     void init();
 };
