@@ -23,7 +23,7 @@ int main(int argc, char** argv) {
 
     std::vector<std::vector<unsigned int>>* idMap;
 
-    renderPtr = new Render(simulation->getParticleVec(), simulation->getMouseX(), simulation->getMouseY(), simulation->getLeftMouse());
+    renderPtr = new Render(simulation->getParticleVec(),simulation->getUserInput());
 
     glutDisplayFunc([](){
         renderPtr->renderGrid();
@@ -36,6 +36,12 @@ int main(int argc, char** argv) {
     });
     glutReshapeFunc([](int x, int y){
         Render::resize(x,y);
+    });
+    glutKeyboardFunc([](unsigned char key, int x, int y){
+        renderPtr->keyboardPress(key, x, y);
+    });
+    glutMouseWheelFunc([](int wheel, int direction, int x, int y){
+        renderPtr->mouseWheel(wheel, direction, x, y);
     });
 
 

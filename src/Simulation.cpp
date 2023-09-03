@@ -2,6 +2,7 @@
 #include "../include/Simulation.h"
 
 Simulation::Simulation() {
+    userInput = new UserInput;
     mouseX = new int{};
     mouseY = new int{};
     leftMouseButton = new bool{};
@@ -26,10 +27,21 @@ void Simulation::initGrid() {
 }
 
 void Simulation::update() {
-    if (*leftMouseButton) {
-        setParticle();
-    } else if (*rightMouseButton) {
-        removeParticle();
+    if (userInput->getMouseLeft() && !userInput->getMouseRight()) {
+        setParticle(1);
+    } else if (!userInput->getMouseLeft() && userInput->getMouseRight()) {
+        setParticle(0);
+    } else if(userInput->getKeyR()){
+        initGrid();
+        userInput->setKeyR(false);
+    }
+    else if(userInput->getMouseWheelUp()){
+        BRUSH_SIZE += 5;
+        userInput->setMouseWheelUp(false);
+    }
+    else if(userInput->getMouseWheelDown()){
+        BRUSH_SIZE -= 5;
+        userInput->setMouseWheelDown(false);
     }
     for (int y = GRID_HEIGHT - 1; y >= 0; y--) {
         for (int x = 0; x < GRID_WIDTH; x++) {
@@ -67,7 +79,9 @@ void Simulation::updateSandParticle(unsigned int x, unsigned int y) {
      * 3. Check right
      */
 
-    particleGrid[y][x].incrementTimeAlive();
+    Particle *particle = &particleGrid[y][x];
+
+    particle->updateParticle();
 
     if ((y + 1) < GRID_HEIGHT) {
         if (particleGrid[y + 1][x].getID() == 0) {
@@ -76,16 +90,14 @@ void Simulation::updateSandParticle(unsigned int x, unsigned int y) {
             if (x == 0) {
                 if (particleGrid[y + 1][x + 1].getID() == 0)
                     std::swap(particleGrid[y][x], particleGrid[y + 1][x + 1]);
-            }
-            else if (x == GRID_WIDTH - 1) {
+            } else if (x == GRID_WIDTH - 1) {
                 if (particleGrid[y + 1][x + 1].getID() == 0) {
                     std::swap(particleGrid[y][x], particleGrid[y + 1][x + 1]);
                 }
-            }
-            else{
-                if((rand() % 2) == 0){
+            } else {
+                if ((rand() % 2) == 0) {
                     std::swap(particleGrid[y][x], particleGrid[y + 1][x + 1]);
-                }else{
+                } else {
                     std::swap(particleGrid[y][x], particleGrid[y + 1][x - 1]);
                 }
 
@@ -94,33 +106,25 @@ void Simulation::updateSandParticle(unsigned int x, unsigned int y) {
     }
 }
 
-    void Simulation::setParticle() {
-        for (int x = (*mouseX); x < (*mouseX) + BRUSH_SIZE; x++) {
-            particleGrid[*mouseY][x] = Particle(1);
+void Simulation::setParticle(int id) {
+    for (int y = userInput->getMouseY(); y < userInput->getMouseY() + BRUSH_SIZE; y++) {
+        for (int x = userInput->getMouseX(); x < userInput->getMouseX() + BRUSH_SIZE; x++) {
+            particleGrid[y][x] = Particle(id);
         }
     }
+}
 
-    void Simulation::removeParticle() {
-        particleGrid[*mouseY][*mouseX] = Particle();
-    }
+std::vector<std::vector<Particle>> *Simulation::getParticleVec() {
+    return &particleGrid;
+}
 
-    std::vector<std::vector<Particle>> *Simulation::getParticleVec() {
-        return &particleGrid;
-    }
+bool Simulation::checkBounds(int x, int y) const {
+    return (
+            x >= 0 && x < GRID_WIDTH &&
+            y >= 0 && y < GRID_HEIGHT
+    );
+}
 
-    int *Simulation::getMouseX() {
-        return mouseX;
-    }
-
-    int *Simulation::getMouseY() {
-        return mouseY;
-    }
-
-    bool *Simulation::getLeftMouse() {
-        return leftMouseButton;
-    }
-
-    bool *Simulation::getRightMouse() {
-        return rightMouseButton;
-    }
-
+UserInput *Simulation::getUserInput() {
+    return userInput;
+}

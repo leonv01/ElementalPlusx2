@@ -15,8 +15,8 @@ private:
     size_t lifeTime{};
     size_t timeAlive{};
 
+    int gravity;
     float color[3];
-    float gravity;
     float horizontalSpreading;
 
 
@@ -31,8 +31,10 @@ public:
     void getColor(float* r, float* g, float* b) const;
     size_t getLifeTime();
     size_t getTimeAlive();
+    int getGravity();
 
-    void incrementTimeAlive();
+    void updateParticle();
+
 };
 
 #endif //ELEMENTALPLUSX2_PARTICLE_H

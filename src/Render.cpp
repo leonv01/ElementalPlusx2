@@ -4,15 +4,15 @@
 
 #include "../include/Render.h"
 
-Render::Render(std::vector<std::vector<Particle>>* particleMap, int* mouseX, int* mouseY, bool* leftMouse){
+Render::Render(std::vector<std::vector<Particle>> *particleMap, UserInput* userInput) {
+    this->userInput = userInput;
     this->particleMap = particleMap;
-    this->mouseX = mouseX;
-    this->mouseY = mouseY;
-    this->leftButton = leftMouse;
-    //this->leftButton = rightMouse;
 }
 
-Render::~Render() = default;
+Render::~Render(){
+    delete particleMap;
+    delete userInput;
+};
 
 void Render::renderGrid() {
 
@@ -27,8 +27,8 @@ void Render::renderGrid() {
     glPointSize(CELL_SIZE);
     glBegin(GL_POINTS);
 
-    for(int y = 0; y < WIN_HEIGHT / CELL_SIZE; y++){
-        for(int x = 0; x < WIN_WIDTH / CELL_SIZE; x++){
+    for (int y = 0; y < WIN_HEIGHT / CELL_SIZE; y++) {
+        for (int x = 0; x < WIN_WIDTH / CELL_SIZE; x++) {
             float color[3];
             (*particleMap)[((WIN_HEIGHT / CELL_SIZE) - 1) - y][x].getColor(&color[0], &color[1], &color[2]);
 
@@ -47,22 +47,51 @@ void Render::init() {
 }
 
 void Render::mousePosition(int x, int y) const {
-    *leftButton = true;
-    *mouseX = x / CELL_SIZE;
-    *mouseY = y / CELL_SIZE;
+    //*leftButton = true;
+    userInput->setMouseX(x / CELL_SIZE);
+    userInput->setMouseY(y / CELL_SIZE);
 
-    printf("Mouse: (%d, %d)\n", *mouseX, *mouseY);
+    //printf("Mouse: (%d, %d)\n", *mouseX, *mouseY);
 }
 
 void Render::mouseButtonDown(int button, int state, int x, int y) const {
-    if(button == GLUT_LEFT_BUTTON){
-        if(state == GLUT_DOWN)
-            *leftButton = true;
+    if (button == GLUT_LEFT_BUTTON) {
+        if (state == GLUT_DOWN)
+            userInput->setMouseLeft(true);
         else
-            *leftButton = false;
+            userInput->setMouseLeft(false);
+    } else if (button == GLUT_RIGHT_BUTTON) {
+        if (state == GLUT_DOWN) {
+            userInput->setMouseRight(true);
+        } else {
+            userInput->setMouseRight(false);
+        }
     }
 }
 
+
+
 void Render::resize(int x, int y) {
     glutReshapeWindow(WIN_WIDTH, WIN_HEIGHT);
+}
+
+void Render::keyboardPress(unsigned char key, int x, int y) {
+    switch (key) {
+        case 'r':
+            userInput->setKeyR(true);
+            break;
+        default:
+            break;
+    }
+}
+
+void Render::mouseWheel(int wheel, int direction, int x, int y) {
+    if(direction > 0){
+        userInput->setMouseWheelUp(true);
+        userInput->setMouseWheelDown(false);
+    }
+    else{
+        userInput->setMouseWheelDown(true);
+        userInput->setMouseWheelUp(false);
+    }
 }

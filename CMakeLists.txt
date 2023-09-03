@@ -10,6 +10,8 @@ add_executable(ElementalPlusx2 main.cpp
         include/Simulation.h
         src/Render.cpp
         include/Render.h
+        src/UserInput.cpp
+        include/UserInput.h
 )
 
 # Find GLUT and OpenGL

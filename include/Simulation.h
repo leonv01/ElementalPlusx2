@@ -21,7 +21,7 @@ private:
     static constexpr unsigned int GRID_WIDTH = Render::WIN_WIDTH / Render::CELL_SIZE;
     static constexpr unsigned int GRID_HEIGHT = Render::WIN_HEIGHT / Render::CELL_SIZE;
     static constexpr int VERTICAL_TRAVEL = 1;
-    static constexpr int BRUSH_SIZE = 100;
+    int BRUSH_SIZE = 25;
 
     std::vector<std::vector<Particle>> particleGrid;
     std::vector<std::vector<unsigned int>> colorIdGrid;
@@ -29,21 +29,21 @@ private:
     void updateSandParticle(unsigned int x, unsigned int y);
     void updateWaterParticle(unsigned int x, unsigned int y);
 
-    int* mouseX,* mouseY;
-    bool* leftMouseButton,* rightMouseButton;
+    UserInput* userInput;
 
-    std::random_device rd;
+    int* mouseX,* mouseY;
+    bool* leftMouseButton;
+    bool* rightMouseButton;
+
+
 public:
     Simulation();
     std::vector<std::vector<Particle>>* getParticleVec();
-    int* getMouseX();
-    int* getMouseY();
-    bool* getLeftMouse();
-    bool* getRightMouse();
 
+    UserInput* getUserInput();
 
-    void removeParticle();
-    void setParticle();
+    bool checkBounds(int x, int y) const;
+    void setParticle(int id);
     void initGrid();
     void update();
 };

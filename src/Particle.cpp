@@ -14,10 +14,18 @@ Particle::Particle() {
     timeAlive = 0;
 }
 Particle::Particle(unsigned int id) {
-    color[0] = 1.0;
-    color[1] = 0.65;
-    color[2] = 0.0;
-
+    if(id == 1) {
+        gravity = 50;
+        color[0] = 1.0;
+        color[1] = 0.65;
+        color[2] = 0.0;
+    }
+    else{
+        gravity = 0;
+        color[0] = 0.0;
+        color[1] = 0.0;
+        color[2] = 0.0;
+    }
     this->id = id;
     lifeTime = -1;
     timeAlive = 0;
@@ -33,7 +41,7 @@ unsigned int Particle::getID() const {
     return id;
 }
 
-void Particle::incrementTimeAlive() {
+void Particle::updateParticle() {
     timeAlive++;
     /*
      * If Time Alive exceeds Maximum Life Time
@@ -56,6 +64,10 @@ void Particle::getColor(float *r, float *g, float *b) const {
     *r = color[0];
     *g = color[1];
     *b = color[2];
+}
+
+int Particle::getGravity(){
+    return gravity;
 }
 
 
