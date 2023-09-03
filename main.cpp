@@ -8,8 +8,9 @@ Simulation* simulation;
 void update(int value){
     simulation->update();
 
+
     glutPostRedisplay();
-    glutTimerFunc(16, update, 0);
+    glutTimerFunc(1, update, 0);
 }
 
 int main(int argc, char** argv) {

@@ -22,7 +22,7 @@ public:
     static constexpr int WIN_WIDTH = 1920;
     static constexpr int WIN_HEIGHT = 1080;
 
-    static constexpr int CELL_SIZE = 2;
+    static constexpr int CELL_SIZE = 5;
     static constexpr int CELL_CENTER = CELL_SIZE / 2;
 
     Render(std::vector<std::vector<Particle>>* particleVec, UserInput* userInput);

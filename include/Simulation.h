@@ -21,7 +21,7 @@ private:
     static constexpr unsigned int GRID_WIDTH = Render::WIN_WIDTH / Render::CELL_SIZE;
     static constexpr unsigned int GRID_HEIGHT = Render::WIN_HEIGHT / Render::CELL_SIZE;
     static constexpr int VERTICAL_TRAVEL = 1;
-    int BRUSH_SIZE = 25;
+    int BRUSH_SIZE = 2;
 
     std::vector<std::vector<Particle>> particleGrid;
     std::vector<std::vector<unsigned int>> colorIdGrid;
@@ -31,10 +31,9 @@ private:
 
     UserInput* userInput;
 
-    int* mouseX,* mouseY;
-    bool* leftMouseButton;
-    bool* rightMouseButton;
-
+    std::random_device rd;
+    std::mt19937 gt;
+    std::uniform_real_distribution<double> distribution;
 
 public:
     Simulation();

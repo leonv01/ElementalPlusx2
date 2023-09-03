@@ -15,7 +15,7 @@ Particle::Particle() {
 }
 Particle::Particle(unsigned int id) {
     if(id == 1) {
-        gravity = 50;
+        gravity = 4;
         color[0] = 1.0;
         color[1] = 0.65;
         color[2] = 0.0;
