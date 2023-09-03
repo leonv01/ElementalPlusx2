@@ -5,11 +5,19 @@
 #include "../include/Particle.h"
 
 Particle::Particle() {
+    color[0] = 0.0;
+    color[1] = 0.0;
+    color[2] = 0.0;
+
     this->id = 0;
     lifeTime = -1;
     timeAlive = 0;
 }
 Particle::Particle(unsigned int id) {
+    color[0] = 1.0;
+    color[1] = 0.65;
+    color[2] = 0.0;
+
     this->id = id;
     lifeTime = -1;
     timeAlive = 0;
@@ -43,4 +51,12 @@ size_t Particle::getLifeTime() {
 size_t Particle::getTimeAlive() {
     return timeAlive;
 }
+
+void Particle::getColor(float *r, float *g, float *b) const {
+    *r = color[0];
+    *g = color[1];
+    *b = color[2];
+}
+
+
 

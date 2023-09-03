@@ -104,8 +104,8 @@ void Simulation::updateSandParticle(unsigned int x, unsigned int y) {
         particleGrid[*mouseY][*mouseX] = Particle();
     }
 
-    std::vector<std::vector<unsigned int>> *Simulation::getIdMap() {
-        return &colorIdGrid;
+    std::vector<std::vector<Particle>> *Simulation::getParticleVec() {
+        return &particleGrid;
     }
 
     int *Simulation::getMouseX() {

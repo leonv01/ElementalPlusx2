@@ -15,9 +15,10 @@ private:
     size_t lifeTime{};
     size_t timeAlive{};
 
+    float color[3];
     float gravity;
     float horizontalSpreading;
-    int color[3]{};
+
 
 public:
     Particle();
@@ -27,7 +28,7 @@ public:
     ~Particle() = default;
 
     unsigned int getID() const;
-
+    void getColor(float* r, float* g, float* b) const;
     size_t getLifeTime();
     size_t getTimeAlive();
 

@@ -7,11 +7,13 @@
 
 #include <vector>
 #include <cstdio>
+
+#include "Particle.h"
 #include "GL/glut.h"
 
 class Render {
 private:
-    std::vector<std::vector<unsigned int>>* idMap;
+    std::vector<std::vector<Particle>>* particleMap;
 public:
     static constexpr int WIN_WIDTH = 1920;
     static constexpr int WIN_HEIGHT = 1080;
@@ -23,7 +25,7 @@ public:
     bool* leftButton;
     bool* rightButton{};
 
-    Render(std::vector<std::vector<unsigned int>>* id, int* mouseX, int* mouseY, bool* leftMouse);
+    Render(std::vector<std::vector<Particle>>* particleVec, int* mouseX, int* mouseY, bool* leftMouse);
     ~Render();
 
     void mousePosition(int x, int y) const;

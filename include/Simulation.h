@@ -35,11 +35,12 @@ private:
     std::random_device rd;
 public:
     Simulation();
-    std::vector<std::vector<unsigned int>>* getIdMap();
+    std::vector<std::vector<Particle>>* getParticleVec();
     int* getMouseX();
     int* getMouseY();
     bool* getLeftMouse();
     bool* getRightMouse();
+
 
     void removeParticle();
     void setParticle();

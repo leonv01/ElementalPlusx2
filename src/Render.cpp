@@ -4,8 +4,8 @@
 
 #include "../include/Render.h"
 
-Render::Render(std::vector<std::vector<unsigned int>>* id, int* mouseX, int* mouseY, bool* leftMouse){
-    idMap = id;
+Render::Render(std::vector<std::vector<Particle>>* particleMap, int* mouseX, int* mouseY, bool* leftMouse){
+    this->particleMap = particleMap;
     this->mouseX = mouseX;
     this->mouseY = mouseY;
     this->leftButton = leftMouse;
@@ -29,21 +29,10 @@ void Render::renderGrid() {
 
     for(int y = 0; y < WIN_HEIGHT / CELL_SIZE; y++){
         for(int x = 0; x < WIN_WIDTH / CELL_SIZE; x++){
-            unsigned int id = (*idMap)[((WIN_HEIGHT / CELL_SIZE) - 1) - y][x];
+            float color[3];
+            (*particleMap)[((WIN_HEIGHT / CELL_SIZE) - 1) - y][x].getColor(&color[0], &color[1], &color[2]);
 
-            switch(id){
-                case 0:
-                    glColor3f(0.0, 0.0, 0.0); // Set color to black for even tiles
-                    break;
-                case 1:
-                    glColor3f(1.0, 0.65, 0.0); // Set color to white for odd tiles
-                    break;
-                case 2:
-                    glColor3f(0.0, 0.65, 1.0); // Set color to white for odd tiles
-                    break;
-                default:
-                    break;
-            }
+            glColor3f(color[0], color[1], color[2]);
 
             glVertex2i((x * CELL_SIZE) + CELL_CENTER, (y * CELL_SIZE) + CELL_CENTER);
         }

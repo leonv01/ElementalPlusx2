@@ -22,8 +22,8 @@ int main(int argc, char** argv) {
     simulation = new Simulation;
 
     std::vector<std::vector<unsigned int>>* idMap;
-    idMap = simulation->getIdMap();
-    renderPtr = new Render(idMap, simulation->getMouseX(), simulation->getMouseY(), simulation->getLeftMouse());
+
+    renderPtr = new Render(simulation->getParticleVec(), simulation->getMouseX(), simulation->getMouseY(), simulation->getLeftMouse());
 
     glutDisplayFunc([](){
         renderPtr->renderGrid();
