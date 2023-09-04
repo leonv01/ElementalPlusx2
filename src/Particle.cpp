@@ -20,7 +20,8 @@ Particle::Particle(unsigned int id) {
     timeAlive = 0;
 }
 
-Particle::Particle(unsigned int id, size_t lifeTime) {
+Particle::Particle(unsigned int id, int lifeTime) {
+    create(id);
     this->id = id;
     this->lifeTime = lifeTime;
     timeAlive = 0;
@@ -36,7 +37,7 @@ void Particle::create(const unsigned int id) {
             break;
 
         case 1:
-            gravity = 4;
+            gravity = 10;
             color[0] = 1.0;
             color[1] = 0.65;
             color[2] = 0.0;
@@ -62,15 +63,18 @@ void Particle::updateParticle() {
      * -> Set ID to 0 for reset
      */
     if(timeAlive >= lifeTime){
+        color[0] = 0.0;
+        color[1] = 0.0;
+        color[2] = 0.0;
         id = 0;
     }
 }
 
-size_t Particle::getLifeTime() {
+int Particle::getLifeTime() {
     return lifeTime;
 }
 
-size_t Particle::getTimeAlive() {
+unsigned int Particle::getTimeAlive() {
     return timeAlive;
 }
 

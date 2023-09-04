@@ -91,52 +91,64 @@ void Simulation::updateSandParticle(unsigned int x, unsigned int y) {
      * 3. Check right
      */
 
-    Particle *particle = &particleGrid[y][x];
+    Particle *currentParticle = &particleGrid[y][x];
 
-    particle->updateParticle();
+    Particle *leftAdjacent;
+    Particle *rightAdjacent;
+    Particle *centerAdjacent;
 
-    unsigned int gravity = particle->getGravity();
+    currentParticle->updateParticle();
+
+    unsigned int gravity = currentParticle->getGravity();
 
     unsigned int newY = y + 1;
     unsigned int currentY = y;
 
     if(newY < GRID_HEIGHT && (x - 1) > 0 && (x + 1) < GRID_WIDTH && x != 0) {
-        if (particleGrid[newY][x + 1].getID() == 1 && particleGrid[newY][x].getID() == 1 &&
-        particleGrid[newY][x - 1].getID() == 1) {
-            particle->setColor(0.65,0.1,0.3);
+        if (
+                particleGrid[newY][x + 1].getID() == 1 &&
+                particleGrid[newY][x].getID() == 1 &&
+                particleGrid[newY][x - 1].getID() == 1
+        ) {
              return;
         }
     }
-    particle->setColor(1.0,0.65,0.0);
-
-
-
     for(unsigned int offset = 1; offset < gravity; offset++){
         newY = y + offset;
 
-        if(particleGrid[newY][x].getID() == 0 && newY < GRID_HEIGHT-1){
+        if(particleGrid[newY][x].getID() == 0 && newY != GRID_HEIGHT - 1){
             currentY = newY;
         }
         else {
             break;
         }
     }
-    if (newY < GRID_HEIGHT - 1) {
+
+    if (newY != GRID_HEIGHT - 1) {
+
+        leftAdjacent = &particleGrid[newY][x - 1];
+        centerAdjacent = &particleGrid[currentY][x];
+        rightAdjacent = &particleGrid[newY][x + 1];
+
+
         if (particleGrid[currentY][x].getID() == 0) {
-            std::swap(particleGrid[y][x], particleGrid[currentY][x]);
+           // currentParticle->setColor(1.0,0.5,0.5);
+            std::swap(*currentParticle, *centerAdjacent);
         } else {
+            //currentParticle->setColor(1.0,0.65,0.0);
+
             if (x == 0) {
-                if (particleGrid[newY][x + 1].getID() == 0)
-                    std::swap(particleGrid[y][x], particleGrid[newY][x + 1]);
+                if (rightAdjacent->getID() == 0)
+                    std::swap(particleGrid[y][x], *rightAdjacent);
             } else if (x == GRID_WIDTH - 1) {
-                if (particleGrid[newY][x - 1].getID() == 0) {
-                    std::swap(particleGrid[y][x], particleGrid[newY][x + 1]);
+                if (leftAdjacent->getID() == 0) {
+                    std::swap(particleGrid[y][x], *leftAdjacent);
                 }
             } else {
                 if (distribution(gen) < 0.5) {
-                    std::swap(particleGrid[y][x], particleGrid[newY][x - 1]);
+                    std::swap(*currentParticle,*leftAdjacent);
                 } else {
-                    std::swap(particleGrid[y][x], particleGrid[newY][x + 1]);
+                    std::swap(*currentParticle, *rightAdjacent);
                 }
             }
         }
@@ -199,6 +211,7 @@ void Simulation::setParticle(int id) {
 
     for (unsigned int y = userInput->getMouseY() - brushCenter; y < userInput->getMouseY() + brushCenter; y++) {
         for (unsigned int x = userInput->getMouseX() - brushCenter; x < userInput->getMouseX() + brushCenter; x++) {
+            if(!checkBounds(x, y)) break;
             particleGrid[y][x] = Particle(id);
         }
     }
@@ -208,10 +221,10 @@ std::vector<std::vector<Particle>> *Simulation::getParticleVec() {
     return &particleGrid;
 }
 
-bool Simulation::checkBounds(int x, int y) const {
+bool Simulation::checkBounds(unsigned int x, unsigned int y) const {
     return (
-            x >= 0 && x < GRID_WIDTH &&
-            y >= 0 && y < GRID_HEIGHT
+            x > 0 && x < GRID_WIDTH - 1 &&
+            y > 0 && y < GRID_HEIGHT - 1
     );
 }
 

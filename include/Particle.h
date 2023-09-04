@@ -14,8 +14,8 @@ private:
     bool staticPosition{};
 
     unsigned int id;
-    size_t lifeTime{};
-    size_t timeAlive{};
+    int lifeTime{};
+    unsigned int timeAlive{};
 
     int gravity;
     float color[3];
@@ -25,7 +25,7 @@ private:
 public:
     Particle();
     explicit Particle(unsigned int id);
-    Particle(unsigned int id, size_t lifeTime);
+    Particle(unsigned int id, int lifeTime);
 
     ~Particle() = default;
 
@@ -40,8 +40,8 @@ public:
     void setStaticPosition(bool value);
     void setColor(float r, float g, float b);
 
-    size_t getLifeTime();
-    size_t getTimeAlive();
+    int getLifeTime();
+    unsigned int getTimeAlive();
 };
 
 #endif //ELEMENTALPLUSX2_PARTICLE_H

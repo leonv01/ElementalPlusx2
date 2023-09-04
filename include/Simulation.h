@@ -52,7 +52,7 @@ public:
 
     void handleUserInput();
 
-    bool checkBounds(int x, int y) const;
+    bool checkBounds(unsigned int x, unsigned int y) const;
     void setParticle(int id);
     void initGrid();
     void update();
