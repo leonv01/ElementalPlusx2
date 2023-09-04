@@ -11,6 +11,8 @@
 
 class Particle {
 private:
+    bool staticPosition{};
+
     unsigned int id;
     size_t lifeTime{};
     size_t timeAlive{};
@@ -27,16 +29,19 @@ public:
 
     ~Particle() = default;
 
-    void create(unsigned int id);
 
-    unsigned int getID() const;
-    void getColor(float* r, float* g, float* b) const;
-    size_t getLifeTime();
-    size_t getTimeAlive();
     int getGravity() const;
+    unsigned int getID() const;
+    bool getStaticPosition() const;
 
     void updateParticle();
+    void getColor(float* r, float* g, float* b) const;
+    void create(unsigned int id);
+    void setStaticPosition(bool value);
+    void setColor(float r, float g, float b);
 
+    size_t getLifeTime();
+    size_t getTimeAlive();
 };
 
 #endif //ELEMENTALPLUSX2_PARTICLE_H

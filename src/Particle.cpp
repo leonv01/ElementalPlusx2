@@ -84,6 +84,20 @@ int Particle::getGravity() const{
     return gravity;
 }
 
+bool Particle::getStaticPosition() const {
+    return staticPosition;
+}
+
+void Particle::setStaticPosition(bool value) {
+    staticPosition = value;
+}
+
+void Particle::setColor(float r, float g, float b) {
+    color[0] = r;
+    color[1] = g;
+    color[2] = b;
+}
+
 
 
 

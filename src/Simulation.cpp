@@ -66,7 +66,7 @@ void Simulation::update() {
                         break;
 
                     case 2:
-                        updateSandParticle(x, y);
+                        updateWaterParticle(x, y);
                     default:
                         break;
                 }
@@ -97,8 +97,19 @@ void Simulation::updateSandParticle(unsigned int x, unsigned int y) {
 
     unsigned int gravity = particle->getGravity();
 
-    unsigned int newY;
+    unsigned int newY = y + 1;
     unsigned int currentY = y;
+
+    if(newY < GRID_HEIGHT && (x - 1) > 0 && (x + 1) < GRID_WIDTH && x != 0) {
+        if (particleGrid[newY][x + 1].getID() == 1 && particleGrid[newY][x].getID() == 1 &&
+        particleGrid[newY][x - 1].getID() == 1) {
+            particle->setColor(0.65,0.1,0.3);
+             return;
+        }
+    }
+    particle->setColor(1.0,0.65,0.0);
+
+
 
     for(unsigned int offset = 1; offset < gravity; offset++){
         newY = y + offset;
@@ -109,8 +120,6 @@ void Simulation::updateSandParticle(unsigned int x, unsigned int y) {
         else {
             break;
         }
-
-
     }
     if (newY < GRID_HEIGHT - 1) {
         if (particleGrid[currentY][x].getID() == 0) {
@@ -129,7 +138,6 @@ void Simulation::updateSandParticle(unsigned int x, unsigned int y) {
                 } else {
                     std::swap(particleGrid[y][x], particleGrid[newY][x + 1]);
                 }
-
             }
         }
     }
@@ -143,14 +151,16 @@ void Simulation::updateWaterParticle(unsigned int x, unsigned int y) {
      * 3. Check right
      */
 
+
     Particle *particle = &particleGrid[y][x];
 
     particle->updateParticle();
 
     unsigned int gravity = particle->getGravity();
 
-    unsigned int newY;
+    unsigned int newY = y + 1;
     unsigned int currentY = y;
+
 
     for(unsigned int offset = 1; offset < gravity; offset++){
         newY = y + offset;
