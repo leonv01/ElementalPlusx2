@@ -67,4 +67,21 @@ UserInput::UserInput() {
 
      keyR = false;
 }
+
+bool UserInput::getKey1() const {
+    return key1;
+}
+
+bool UserInput::getKey2() const {
+    return key2;
+}
+
+void UserInput::setKey1(const bool value) {
+    key1 = value;
+}
+
+void UserInput::setKey2(bool value) {
+    key2 = value;
+}
+
 UserInput::~UserInput() = default;

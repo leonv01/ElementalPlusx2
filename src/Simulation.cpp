@@ -2,10 +2,10 @@
 #include "../include/Simulation.h"
 
 Simulation::Simulation() {
+    currentElement = _SAND;
     userInput = new UserInput;
-    //rd = std::random_device();
-   // gt = std::mt19937(rd);
-    std::uniform_real_distribution<double> distribution;
+    gen = std::mt19937(rd());
+    distribution = std::uniform_real_distribution<double>(0.0, 1.0);
 
     initGrid();
 }
@@ -26,61 +26,56 @@ void Simulation::initGrid() {
 }
 
 void Simulation::update() {
-    if (userInput->getMouseLeft() && !userInput->getMouseRight()) {
-        setParticle(1);
-    } else if (!userInput->getMouseLeft() && userInput->getMouseRight()) {
-        setParticle(0);
-    } else if (userInput->getKeyR()) {
-        initGrid();
-        userInput->setKeyR(false);
-    } else if (userInput->getMouseWheelUp()) {
-        BRUSH_SIZE += 5;
-        userInput->setMouseWheelUp(false);
-    } else if (userInput->getMouseWheelDown()) {
-        BRUSH_SIZE -= 5;
-        userInput->setMouseWheelDown(false);
-    }
-    for (int y = GRID_HEIGHT - 1; y >= 0; y--) {
-        for (int x = 0; x < GRID_WIDTH; x++) {
-            unsigned int id = particleGrid[y][x].getID();
-            colorIdGrid[y][x] = id;
-            switch (id) {
-                // Standard Particle aka. no reaction
-                case 0:
-                    break;
-                    // Sand Particle
-                case 1:
-                    updateSandParticle(x, y);
-                    break;
 
-                case 2:
-                    //updateWaterParticle(x,y);
-                default:
-                    break;
+    handleUserInput();
+
+    if(frame) {
+        for (int y = GRID_HEIGHT - 1; y >= 0; y--) {
+            for (int x = 0; x < GRID_WIDTH; x++) {
+                unsigned int id = particleGrid[y][x].getID();
+                colorIdGrid[y][x] = id;
+                switch (id) {
+                    // Standard Particle aka. no reaction
+                    case 0:
+                        break;
+                        // Sand Particle
+                    case 1:
+                        updateSandParticle(x, y);
+                        break;
+
+                    case 2:
+                        updateWaterParticle(x, y);
+                    default:
+                        break;
+                }
             }
         }
     }
-    for (int y = GRID_HEIGHT - 1; y >= 0; y--) {
-        for (int x = GRID_WIDTH - 1; x >= 0; x--) {
-            unsigned int id = particleGrid[y][x].getID();
-            colorIdGrid[y][x] = id;
-            switch (id) {
-                // Standard Particle aka. no reaction
-                case 0:
-                    break;
-                    // Sand Particle
-                case 1:
-                    updateSandParticle(x, y);
-                    break;
+    else {
+        for (int y = GRID_HEIGHT - 1; y >= 0; y--) {
+            for (int x = GRID_WIDTH - 1; x >= 0; x--) {
+                unsigned int id = particleGrid[y][x].getID();
+                colorIdGrid[y][x] = id;
+                switch (id) {
+                    // Standard Particle aka. no reaction
+                    case 0:
+                        break;
+                        // Sand Particle
+                    case 1:
+                        updateSandParticle(x, y);
+                        break;
 
-                case 2:
-                    //updateWaterParticle(x,y);
-                default:
-                    break;
+                    case 2:
+                        updateSandParticle(x, y);
+                    default:
+                        break;
+                }
             }
         }
     }
+    frame = !frame;
 }
+
 
 /*
  * Example: Particle checks adjacent particles
@@ -89,6 +84,58 @@ void Simulation::update() {
  * o o o
  */
 void Simulation::updateSandParticle(unsigned int x, unsigned int y) {
+
+    /*
+     * 1. Check middle
+     * 2. Check left
+     * 3. Check right
+     */
+
+    Particle *particle = &particleGrid[y][x];
+
+    particle->updateParticle();
+
+    unsigned int gravity = particle->getGravity();
+
+    unsigned int newY;
+    unsigned int currentY = y;
+
+    for(unsigned int offset = 1; offset < gravity; offset++){
+        newY = y + offset;
+
+        if(particleGrid[newY][x].getID() == 0 && newY < GRID_HEIGHT-1){
+            currentY = newY;
+        }
+        else {
+            break;
+        }
+
+
+    }
+    if (newY < GRID_HEIGHT - 1) {
+        if (particleGrid[currentY][x].getID() == 0) {
+            std::swap(particleGrid[y][x], particleGrid[currentY][x]);
+        } else {
+            if (x == 0) {
+                if (particleGrid[newY][x + 1].getID() == 0)
+                    std::swap(particleGrid[y][x], particleGrid[newY][x + 1]);
+            } else if (x == GRID_WIDTH - 1) {
+                if (particleGrid[newY][x - 1].getID() == 0) {
+                    std::swap(particleGrid[y][x], particleGrid[newY][x + 1]);
+                }
+            } else {
+                if (distribution(gen) < 0.5) {
+                    std::swap(particleGrid[y][x], particleGrid[newY][x - 1]);
+                } else {
+                    std::swap(particleGrid[y][x], particleGrid[newY][x + 1]);
+                }
+
+            }
+        }
+    }
+}
+
+void Simulation::updateWaterParticle(unsigned int x, unsigned int y) {
 
     /*
      * 1. Check middle
@@ -118,23 +165,24 @@ void Simulation::updateSandParticle(unsigned int x, unsigned int y) {
             std::swap(particleGrid[y][x], particleGrid[currentY][x]);
         } else {
             if (x == 0) {
-                if (particleGrid[newY][x + 1].getID() == 0)
-                    std::swap(particleGrid[y][x], particleGrid[newY][x + 1]);
+                if (particleGrid[currentY][x].getID() == 0)
+                    std::swap(particleGrid[y][x], particleGrid[currentY][x + 1]);
             } else if (x == GRID_WIDTH - 1) {
-                if (particleGrid[newY][x - 1].getID() == 0) {
-                    std::swap(particleGrid[y][x], particleGrid[newY][x + 1]);
+                if (particleGrid[currentY][x - 1].getID() == 0) {
+                    std::swap(particleGrid[y][x], particleGrid[currentY][x + 1]);
                 }
             } else {
-                if ((rand() % 2) == 0) {
-                    std::swap(particleGrid[y][x], particleGrid[newY][x - 1]);
+                if (distribution(gen) < 0.5) {
+                    std::swap(particleGrid[y][x], particleGrid[currentY][x - 1]);
                 } else {
-                    std::swap(particleGrid[y][x], particleGrid[newY][x + 1]);
+                    std::swap(particleGrid[y][x], particleGrid[currentY][x + 1]);
                 }
 
             }
         }
     }
 }
+
 
 void Simulation::setParticle(int id) {
     unsigned int brushCenter = BRUSH_SIZE / 2;
@@ -159,4 +207,26 @@ bool Simulation::checkBounds(int x, int y) const {
 
 UserInput *Simulation::getUserInput() {
     return userInput;
+}
+
+void Simulation::handleUserInput() {
+    if (userInput->getMouseLeft() && !userInput->getMouseRight()) {
+        setParticle(currentElement);
+    } else if (!userInput->getMouseLeft() && userInput->getMouseRight()) {
+        setParticle(0);
+    } else if (userInput->getKeyR()) {
+        initGrid();
+        userInput->setKeyR(false);
+    } else if (userInput->getMouseWheelUp()) {
+        BRUSH_SIZE += 5;
+        userInput->setMouseWheelUp(false);
+    } else if (userInput->getMouseWheelDown()) {
+        BRUSH_SIZE -= 5;
+        userInput->setMouseWheelDown(false);
+    } else if(userInput->getKey1()){
+        currentElement = _SAND;
+    } else if(userInput->getKey2()){
+        currentElement = _WATER;
+    }
+
 }

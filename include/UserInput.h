@@ -17,18 +17,22 @@ private:
     bool mouseWheelDown;
 
     bool keyR;
+    bool key1;
+    bool key2;
 
 public:
     UserInput();
     ~UserInput();
 
-    void setMouseX(const int x);
-    void setMouseY(const int y);
-    void setMouseRight(const bool value);
-    void setMouseLeft(const bool value);
-    void setMouseWheelUp(const bool value);
-    void setMouseWheelDown(const bool value);
-    void setKeyR(const bool value);
+    void setMouseX(int x);
+    void setMouseY(int y);
+    void setMouseRight(bool value);
+    void setMouseLeft(bool value);
+    void setMouseWheelUp(bool value);
+    void setMouseWheelDown(bool value);
+    void setKeyR(bool value);
+    void setKey1(bool value);
+    void setKey2(bool value);
 
     int getMouseX() const;
     int getMouseY() const;
@@ -39,6 +43,8 @@ public:
     bool getMouseWheelDown() const;
 
     bool getKeyR() const;
+    bool getKey1() const;
+    bool getKey2() const;
 };
 
 #endif //ELEMENTALPLUSX2_USERINPUT_H

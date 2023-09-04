@@ -80,6 +80,14 @@ void Render::keyboardPress(unsigned char key, int x, int y) {
         case 'r':
             userInput->setKeyR(true);
             break;
+        case '1':
+            userInput->setKey1(true);
+            userInput->setKey2(false);
+            break;
+        case '2':
+            userInput->setKey2(true);
+            userInput->setKey1(false);
+            break;
         default:
             break;
     }

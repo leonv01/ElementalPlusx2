@@ -35,6 +35,8 @@ public:
     static void resize(int x, int y);
     void renderGrid();
     void init();
+
+    void renderString(float x, float y, void *font, const char *string);
 };
 
 

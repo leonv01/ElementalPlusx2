@@ -14,18 +14,7 @@ Particle::Particle() {
     timeAlive = 0;
 }
 Particle::Particle(unsigned int id) {
-    if(id == 1) {
-        gravity = 4;
-        color[0] = 1.0;
-        color[1] = 0.65;
-        color[2] = 0.0;
-    }
-    else{
-        gravity = 0;
-        color[0] = 0.0;
-        color[1] = 0.0;
-        color[2] = 0.0;
-    }
+    create(id);
     this->id = id;
     lifeTime = -1;
     timeAlive = 0;
@@ -35,6 +24,31 @@ Particle::Particle(unsigned int id, size_t lifeTime) {
     this->id = id;
     this->lifeTime = lifeTime;
     timeAlive = 0;
+}
+
+void Particle::create(const unsigned int id) {
+    switch (id) {
+        case 0:
+            gravity = 0;
+            color[0] = 0.0;
+            color[1] = 0.0;
+            color[2] = 0.0;
+            break;
+
+        case 1:
+            gravity = 4;
+            color[0] = 1.0;
+            color[1] = 0.65;
+            color[2] = 0.0;
+            break;
+
+        case 2:
+            gravity = 4;
+            color[0] = 0.0;
+            color[1] = 0.92;
+            color[2] = 1.0;
+            break;
+    }
 }
 
 unsigned int Particle::getID() const {
@@ -66,9 +80,10 @@ void Particle::getColor(float *r, float *g, float *b) const {
     *b = color[2];
 }
 
-int Particle::getGravity(){
+int Particle::getGravity() const{
     return gravity;
 }
+
 
 
 

@@ -27,11 +27,13 @@ public:
 
     ~Particle() = default;
 
+    void create(unsigned int id);
+
     unsigned int getID() const;
     void getColor(float* r, float* g, float* b) const;
     size_t getLifeTime();
     size_t getTimeAlive();
-    int getGravity();
+    int getGravity() const;
 
     void updateParticle();
 
