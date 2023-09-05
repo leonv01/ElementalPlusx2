@@ -31,7 +31,6 @@ private:
     int BRUSH_SIZE = 2;
 
     std::vector<std::vector<Particle>> particleGrid;
-    std::vector<std::vector<unsigned int>> colorIdGrid;
 
     void updateSandParticle(unsigned int x, unsigned int y);
     void updateWaterParticle(unsigned int x, unsigned int y);

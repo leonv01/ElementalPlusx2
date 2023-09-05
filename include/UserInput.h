@@ -16,6 +16,7 @@ private:
     bool mouseWheelUp;
     bool mouseWheelDown;
 
+    bool keyQ;
     bool keyR;
     bool key1;
     bool key2;
@@ -26,10 +27,13 @@ public:
 
     void setMouseX(int x);
     void setMouseY(int y);
+
     void setMouseRight(bool value);
     void setMouseLeft(bool value);
     void setMouseWheelUp(bool value);
     void setMouseWheelDown(bool value);
+
+    void setKeyQ(bool value);
     void setKeyR(bool value);
     void setKey1(bool value);
     void setKey2(bool value);
@@ -42,6 +46,7 @@ public:
     bool getMouseWheelUp() const;
     bool getMouseWheelDown() const;
 
+    bool getKeyQ() const;
     bool getKeyR() const;
     bool getKey1() const;
     bool getKey2() const;

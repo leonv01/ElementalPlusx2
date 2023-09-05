@@ -84,4 +84,12 @@ void UserInput::setKey2(bool value) {
     key2 = value;
 }
 
+bool UserInput::getKeyQ() const {
+    return keyQ;
+}
+
+void UserInput::setKeyQ(bool value) {
+    keyQ = value;
+}
+
 UserInput::~UserInput() = default;

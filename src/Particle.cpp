@@ -4,50 +4,21 @@
 
 #include "../include/Particle.h"
 
-Particle::Particle() {
-    color[0] = 0.0;
-    color[1] = 0.0;
-    color[2] = 0.0;
-
-    this->id = 0;
-    lifeTime = -1;
-    timeAlive = 0;
-}
-Particle::Particle(unsigned int id) {
-    create(id);
-    this->id = id;
-    lifeTime = -1;
-    timeAlive = 0;
-}
-
 Particle::Particle(unsigned int id, int lifeTime) {
-    create(id);
     this->id = id;
     this->lifeTime = lifeTime;
     timeAlive = 0;
-}
 
-void Particle::create(const unsigned int id) {
-    switch (id) {
+    switch(id){
         case 0:
-            gravity = 0;
-            color[0] = 0.0;
-            color[1] = 0.0;
-            color[2] = 0.0;
+            createEmpty();
             break;
-
         case 1:
-            gravity = 10;
-            color[0] = 1.0;
-            color[1] = 0.65;
-            color[2] = 0.0;
+            createSand();
             break;
-
         case 2:
-            gravity = 4;
-            color[0] = 0.0;
-            color[1] = 0.92;
-            color[2] = 1.0;
+            createWater();
+        default:
             break;
     }
 }
@@ -63,19 +34,8 @@ void Particle::updateParticle() {
      * -> Set ID to 0 for reset
      */
     if(timeAlive >= lifeTime){
-        color[0] = 0.0;
-        color[1] = 0.0;
-        color[2] = 0.0;
         id = 0;
     }
-}
-
-int Particle::getLifeTime() {
-    return lifeTime;
-}
-
-unsigned int Particle::getTimeAlive() {
-    return timeAlive;
 }
 
 void Particle::getColor(float *r, float *g, float *b) const {
@@ -88,18 +48,34 @@ int Particle::getGravity() const{
     return gravity;
 }
 
-bool Particle::getStaticPosition() const {
-    return staticPosition;
-}
-
-void Particle::setStaticPosition(bool value) {
-    staticPosition = value;
-}
-
 void Particle::setColor(float r, float g, float b) {
     color[0] = r;
     color[1] = g;
     color[2] = b;
+}
+
+void Particle::createSand() {
+    gravity = 10;
+    setColor(1.0, 0.65, 0.0);
+}
+
+void Particle::createEmpty() {
+    setColor(0.0,0.0,0.0);
+}
+
+void Particle::createWater() {
+    gravity = 10;
+    setColor(0.0,0.3, 0.85);
+
+}
+
+void Particle::swap(Particle *other) {
+    unsigned int tempX, tempY;
+}
+
+void Particle::createWood() {
+    gravity = 0;
+    setColor(0.3, 0.0,0.0);
 }
 
 
